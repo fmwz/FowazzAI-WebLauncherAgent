@@ -1,0 +1,21 @@
+# Remove .html extension from URLs
+RewriteEngine On
+
+# Redirect /settings.html to /settings
+RewriteCond %{THE_REQUEST} \s/settings\.html [NC]
+RewriteRule ^ /settings [R=301,L]
+
+# Serve settings.html when /settings is requested
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^settings$ settings.html [L]
+
+# General rule: Redirect any .html URLs to extensionless versions
+RewriteCond %{THE_REQUEST} \s/+(.*)\.html [NC]
+RewriteRule ^ /%1 [R=301,L,NE]
+
+# Serve .html files when extensionless URL is requested
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L]

@@ -1,0 +1,188 @@
+<!-- ====================================== -->
+<!-- ARABIC LANGUAGE SUPPORT - COMPLETE CODE -->
+<!-- Copy and paste these sections into index.html -->
+<!-- ====================================== -->
+
+<!-- ========== STEP 1: Add this BEFORE closing </head> tag ========== -->
+
+<script src="translations.js?v=1"></script>
+
+<!-- ========== STEP 2: Add this CSS in the <style> section ========== -->
+
+<style>
+/* Language Picker Modal */
+.language-picker-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.language-picker-modal.active {
+    display: flex;
+}
+
+.language-picker-content {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 2px solid rgba(255, 107, 53, 0.3);
+    border-radius: 20px;
+    padding: 60px;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+}
+
+.language-picker-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: white;
+    font-weight: 700;
+}
+
+.language-options {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.language-option {
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 107, 53, 0.05));
+    border: 2px solid rgba(255, 107, 53, 0.3);
+    border-radius: 16px;
+    padding: 40px 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    font-family: inherit;
+}
+
+.language-option:hover {
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.25), rgba(255, 107, 53, 0.15));
+    border-color: rgba(255, 107, 53, 0.6);
+    transform: translateY(-5px);
+}
+
+.language-flag {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+}
+
+.language-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* RTL Support for Arabic */
+[dir="rtl"] {
+    text-align: right;
+}
+
+[dir="rtl"] .sidebar {
+    left: auto !important;
+    right: 0;
+}
+
+[dir="rtl"] .main-content {
+    margin-left: 0 !important;
+    margin-right: 300px;
+}
+
+[dir="rtl"] .message {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .message-content {
+    text-align: right;
+}
+
+[dir="rtl"] .config-field,
+[dir="rtl"] .config-label {
+    text-align: right;
+}
+
+[dir="rtl"] .plugin-item {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+    text-align: right;
+}
+</style>
+
+<!-- ========== STEP 3: Add this HTML BEFORE the Welcome Modal ========== -->
+
+<!-- Language Picker Modal -->
+<div id="languagePickerModal" class="language-picker-modal">
+    <div class="language-picker-content">
+        <h2 class="language-picker-title">Select Your Language / اختر لغتك</h2>
+
+        <div class="language-options">
+            <button onclick="selectLanguage('en')" class="language-option">
+                <div class="language-flag">🇺🇸</div>
+                <div class="language-name">English</div>
+            </button>
+
+            <button onclick="selectLanguage('ar')" class="language-option">
+                <div class="language-flag">🇸🇦</div>
+                <div class="language-name">العربية</div>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== STEP 4: Add this JavaScript at the END of app.js ========== -->
+
+<script>
+// Language picker logic
+function checkLanguagePreference() {
+  const language = localStorage.getItem('fowazz_language');
+
+  if (!language) {
+    // First visit - show language picker
+    document.getElementById('languagePickerModal').classList.add('active');
+  } else {
+    // Set language attributes
+    if (language === 'ar') {
+      document.documentElement.setAttribute('dir', 'rtl');
+      document.documentElement.setAttribute('lang', 'ar');
+    }
+  }
+}
+
+window.selectLanguage = function(lang) {
+  localStorage.setItem('fowazz_language', lang);
+
+  if (lang === 'ar') {
+    document.documentElement.setAttribute('dir', 'rtl');
+    document.documentElement.setAttribute('lang', 'ar');
+  } else {
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.setAttribute('lang', 'en');
+  }
+
+  document.getElementById('languagePickerModal').classList.remove('active');
+
+  // Update initial greeting based on language
+  const greeting = lang === 'ar'
+    ? 'يلا، وش ناوي تسوي؟'
+    : 'hey, so what\'re we building?';
+
+  if (conversationHistory.length === 1 && conversationHistory[0].role === 'assistant') {
+    conversationHistory[0].content = greeting;
+    // Re-render messages
+    messagesContainer.innerHTML = '<div class="w-full max-w-3xl space-y-8"></div>';
+    addMessage('assistant', greeting, false);
+  }
+};
+
+// Call on page load
+checkLanguagePreference();
+</script>
+
+<!-- ========== DONE! ========== -->

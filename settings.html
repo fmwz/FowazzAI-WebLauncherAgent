@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - FOWAZZ</title>
+    <link rel="icon" type="image/png" href="logotest.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        :root {
+            --orange: #ff6b35;
+            --dark-orange: #d85a2b;
+        }
+
+        body {
+            background: #0f0f0f;
+            color: #e5e5e5;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background - Same as index.html */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.04) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(57, 255, 20, 0.02) 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Modal Animations - Same as index.html */
+        @keyframes modalFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes modalFadeOut {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+        }
+
+        @keyframes backdropFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes backdropFadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        .modal-backdrop-enter {
+            animation: backdropFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .modal-backdrop-exit {
+            animation: backdropFadeOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .modal-content-enter {
+            animation: modalFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .modal-content-exit {
+            animation: modalFadeOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Smooth transitions for all interactive elements */
+        button, a {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Add hover glow effect to buttons */
+        button:hover {
+            filter: brightness(1.1);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="Index.html" class="flex items-center gap-3">
+                    <img src="logotest.png" alt="FOWAZZ" style="width: 40px; height: 40px; border-radius: 8px;">
+                    <h1 class="text-2xl font-bold text-white">FOWAZZ</h1>
+                </a>
+                <a href="Index.html" class="px-6 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl">
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hackathon Badge - Shows only in HACKATHON_MODE -->
+    <div id="hackathonBadgeSettings" class="relative z-10 max-w-7xl mx-auto px-6 pt-4" style="display: none;">
+        <div class="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-xl p-4 text-center">
+            <div class="flex items-center justify-center gap-2">
+                <span class="text-2xl">✨</span>
+                <span class="text-gray-300 text-sm">Built for</span>
+                <span class="font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">GVH</span>
+                <span class="text-2xl">🚀</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Show hackathon badge if HACKATHON_MODE is enabled (loaded from app.js)
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait a bit for app.js to load if needed
+        setTimeout(() => {
+            if (typeof HACKATHON_MODE !== 'undefined' && HACKATHON_MODE) {
+                const badge = document.getElementById('hackathonBadgeSettings');
+                if (badge) badge.style.display = 'block';
+            }
+        }, 100);
+    });
+    </script>
+
+    <!-- Main Content -->
+    <main class="relative z-10 max-w-7xl mx-auto px-6 py-8">
+        <div class="flex gap-8">
+            <!-- Sidebar -->
+            <div class="w-64 flex-shrink-0">
+                <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-4 sticky top-6">
+                    <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Settings</h2>
+                    <nav class="space-y-1">
+                        <button onclick="showProfile()" class="settings-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium text-orange-400 bg-orange-500/10 border border-orange-500/20">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            Profile
+                        </button>
+                        <button onclick="showAccount()" class="settings-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Account
+                        </button>
+                        <button onclick="showSecurity()" class="settings-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                            Security
+                        </button>
+                        <button onclick="showPreferences()" class="settings-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                            Preferences
+                        </button>
+                        <!-- ============================================ -->
+                        <!-- BILLING TAB - HIDDEN IN HACKATHON MODE -->
+                        <!-- Uncomment below to restore billing section -->
+                        <!-- ============================================ -->
+                        <!--
+                        <button onclick="showBilling()" class="settings-nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            </svg>
+                            Billing & Plan
+                        </button>
+                        -->
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex-1 min-w-0">
+                <!-- Profile Section -->
+                <div id="profileSection" class="settings-section">
+                    <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
+                        <h2 class="text-2xl font-bold text-white mb-2">Profile</h2>
+                        <p class="text-gray-400 mb-8">Manage your personal information.</p>
+
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-6">
+                                <div id="profileAvatar" class="w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-4xl" style="background: linear-gradient(135deg, #4a5568, #2d3748);">
+                                    U
+                                </div>
+                                <div>
+                                    <button disabled class="px-4 py-2 bg-gray-800 text-gray-500 rounded-lg cursor-not-allowed">
+                                        Avatar Upload Coming Soon
+                                    </button>
+                                    <p class="text-xs text-gray-500 mt-2">Avatar upload will be available soon.</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                                    <input type="text" id="profileFullName" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                                    <input type="email" id="profileEmail" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent" disabled>
+                                    <p class="text-xs text-gray-500 mt-1">Email cannot be changed</p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <button onclick="saveProfile()" class="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg transition-all">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Section -->
+                <div id="accountSection" class="settings-section hidden">
+                    <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
+                        <h2 class="text-2xl font-bold text-white mb-2">Account</h2>
+                        <p class="text-gray-400 mb-8">Manage your account settings.</p>
+
+                        <div class="space-y-8">
+                            <div>
+                                <h3 class="text-lg font-semibold text-white mb-4">Account Actions</h3>
+                                <div class="space-y-4">
+                                    <div class="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                                        <div class="flex items-start gap-4">
+                                            <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                            </svg>
+                                            <div class="flex-1">
+                                                <h4 class="text-white font-semibold mb-1">Delete Account</h4>
+                                                <p class="text-sm text-gray-400 mb-3">Permanently delete your account and all associated data. This action cannot be undone.</p>
+                                                <button onclick="confirmDeleteAccount()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-sm font-medium">
+                                                    Delete Account
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Section -->
+                <div id="securitySection" class="settings-section hidden">
+                    <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
+                        <h2 class="text-2xl font-bold text-white mb-2">Security</h2>
+                        <p class="text-gray-400 mb-8">Manage your password and security settings.</p>
+
+                        <div class="space-y-8">
+                            <div>
+                                <h3 class="text-lg font-semibold text-white mb-4">Change Password</h3>
+                                <div class="space-y-4 max-w-md">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-2">Current Password</label>
+                                        <input type="password" id="currentPassword" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-2">New Password</label>
+                                        <input type="password" id="newPassword" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-2">Confirm New Password</label>
+                                        <input type="password" id="confirmPassword" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                                    </div>
+                                    <button onclick="changePassword()" class="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg transition-all">
+                                        Update Password
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="border-t border-gray-800 pt-8">
+                                <h3 class="text-lg font-semibold text-white mb-4">Two-Factor Authentication</h3>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-300">Enable 2FA</div>
+                                        <div class="text-xs text-gray-500">Coming soon - Add an extra layer of security</div>
+                                    </div>
+                                    <button disabled class="px-4 py-2 bg-gray-800 text-gray-500 rounded-lg cursor-not-allowed">
+                                        Coming Soon
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preferences Section -->
+                <div id="preferencesSection" class="settings-section hidden">
+                    <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
+                        <h2 class="text-2xl font-bold text-white mb-2">Preferences</h2>
+                        <p class="text-gray-400 mb-8">Customize your FOWAZZ experience.</p>
+
+                        <div class="space-y-8">
+                            <div>
+                                <h3 class="text-lg font-semibold text-white mb-4">Interface</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-300">Dark Mode</div>
+                                            <div class="text-xs text-gray-500">Use dark theme throughout the app (coming soon)</div>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" id="darkModeToggle" class="sr-only peer" checked disabled>
+                                            <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-300">Reduced Motion</div>
+                                            <div class="text-xs text-gray-500">Minimize animations and transitions</div>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" id="reducedMotionToggle" class="sr-only peer" onchange="toggleReducedMotion(this)">
+                                            <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-white mb-4">Editor</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-300">Auto-preview</div>
+                                            <div class="text-xs text-gray-500">Automatically show preview when AI generates code</div>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" id="autoPreviewToggle" class="sr-only peer" onchange="toggleAutoPreview(this)">
+                                            <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-300">Syntax Highlighting</div>
+                                            <div class="text-xs text-gray-500">Show code with syntax highlighting</div>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" id="syntaxHighlightingToggle" class="sr-only peer" onchange="toggleSyntaxHighlighting(this)">
+                                            <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-white mb-4">Save Options</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-300">Auto-save Interval</div>
+                                            <div class="text-xs text-gray-500">How often to save your progress automatically</div>
+                                        </div>
+                                        <select id="autoSaveIntervalSelect" onchange="changeAutoSaveInterval(this.value)" class="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                            <option value="30">Every 30 seconds</option>
+                                            <option value="60">Every 1 minute</option>
+                                            <option value="120">Every 2 minutes</option>
+                                            <option value="300">Every 5 minutes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- BILLING SECTION - HIDDEN IN HACKATHON MODE -->
+                <!-- Uncomment below to restore billing section -->
+                <!-- ============================================ -->
+                <!--
+                <div id="billingSection" class="settings-section hidden">
+                    <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
+                        <h2 class="text-2xl font-bold text-white mb-2">Billing & Plan</h2>
+                        <p class="text-gray-400 mb-8">Manage your subscription and billing information.</p>
+
+                        <div class="space-y-8" id="billingContent">
+                            <div class="text-center py-8">
+                                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                                <p class="text-gray-400 mt-2">Loading your subscription...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Global variables (currentUser and userProfile come from supabase-client.js)
+        // DO NOT redeclare them here to avoid conflicts
+        let userSettings = null;
+
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Settings page loaded');
+            initAuth();
+        });
+
+        // Handle user logged in (called by supabase-client.js)
+        window.handleUserLoggedIn = async function() {
+            console.log('handleUserLoggedIn called in settings page');
+            console.log('currentUser:', currentUser);
+
+            if (!currentUser) {
+                console.error('No currentUser in handleUserLoggedIn!');
+                return;
+            }
+
+            try {
+                // Load additional user data specific to settings page
+                await Promise.all([
+                    loadUserProfile(),
+                    loadUserSettings()
+                ]);
+
+                // Update UI
+                updateProfileUI();
+                loadAllSettings();
+                loadBillingData();
+                showProfile();
+
+                console.log('Settings page initialized successfully');
+            } catch (error) {
+                console.error('Error initializing settings page:', error);
+                showError('Failed to load user data: ' + error.message);
+            }
+        };
+
+        // Handle user logged out (called by supabase-client.js)
+        window.handleUserLoggedOut = function() {
+            console.log('handleUserLoggedOut called in settings page');
+            // Redirect to main page
+            window.location.href = 'Index.html';
+        };
+
+        // Load user profile from database
+        async function loadUserProfile() {
+            if (!currentUser) return null;
+
+            try {
+                const { data, error } = await supabase
+                    .from('user_profiles')
+                    .select('*')
+                    .eq('id', currentUser.id)
+                    .single();
+
+                if (error && error.code !== 'PGRST116') {
+                    console.error('Error loading profile:', error);
+                }
+
+                if (data) {
+                    userProfile = data;
+                    console.log('Profile loaded:', data);
+                }
+
+                return data;
+            } catch (error) {
+                console.error('Error in loadUserProfile:', error);
+                return null;
+            }
+        }
+
+        // Load user settings from database
+        async function loadUserSettings() {
+            if (!currentUser) return null;
+
+            // user_settings table removed - settings not currently used
+            return null;
+
+            /* DISABLED - user_settings table removed
+            try {
+                const { data, error } = await supabase
+                    .from('user_settings')
+                    .select('*')
+                    .eq('id', currentUser.id)
+                    .single();
+
+                if (error && error.code !== 'PGRST116') {
+                    console.error('Error loading settings:', error);
+                }
+
+                if (data) {
+                    userSettings = data;
+                    console.log('Settings loaded:', data);
+                }
+
+                return data;
+            } catch (error) {
+                console.error('Error in loadUserSettings:', error);
+                return null;
+            }
+            */
+        }
+
+        // Update profile UI with user data
+        function updateProfileUI() {
+            console.log('updateProfileUI called. currentUser:', currentUser);
+            console.log('userProfile:', userProfile);
+
+            if (!currentUser) {
+                console.error('NO USER FOUND - You are not logged in!');
+                return;
+            }
+
+            try {
+                const fullName = currentUser.user_metadata?.full_name ||
+                               userProfile?.full_name ||
+                               (currentUser.email ? currentUser.email.split('@')[0] : 'User');
+
+                const email = currentUser.email || 'No email found';
+
+                console.log('Full name:', fullName);
+                console.log('Email:', email);
+                console.log('Updating profile UI with:', { fullName, email });
+
+                // Update form fields
+                const nameField = document.getElementById('profileFullName');
+                const emailField = document.getElementById('profileEmail');
+                const bioField = document.getElementById('profileBio');
+
+                if (nameField) {
+                    nameField.value = fullName;
+                    console.log('Name field set to:', fullName);
+                } else {
+                    console.error('Name field not found');
+                }
+
+                if (emailField) {
+                    emailField.value = email;
+                    console.log('Email field set to:', email);
+                } else {
+                    console.error('Email field not found');
+                }
+
+                // Update avatar
+                const avatar = document.getElementById('profileAvatar');
+                if (avatar) {
+                    const firstLetter = fullName.charAt(0).toUpperCase();
+                    const darkColors = [
+                        '#4a5568', '#5a67d8', '#ed8936', '#48bb78', '#4299e1',
+                        '#9f7aea', '#f56565', '#38b2ac', '#667eea', '#764ba2'
+                    ];
+
+                    let hash = 0;
+                    for (let i = 0; i < (currentUser.email || '').length; i++) {
+                        hash = currentUser.email.charCodeAt(i) + ((hash << 5) - hash);
+                    }
+                    const colorIndex = Math.abs(hash) % darkColors.length;
+                    const bgColor = darkColors[colorIndex];
+
+                    avatar.textContent = firstLetter;
+                    avatar.style.background = `linear-gradient(135deg, ${bgColor}, #2d3748)`;
+                    console.log('Avatar updated with letter:', firstLetter, 'color:', bgColor);
+                } else {
+                    console.error('Avatar element not found');
+                }
+            } catch (error) {
+                console.error('Error in updateProfileUI:', error);
+            }
+        }
+
+        // Save profile information
+        async function saveProfile() {
+            if (!currentUser) return;
+
+            try {
+                const fullName = document.getElementById('profileFullName').value.trim();
+
+                console.log('Saving profile:', { fullName });
+
+                // Update user metadata in auth
+                const { error: updateError } = await supabase.auth.updateUser({
+                    data: { full_name: fullName }
+                });
+
+                if (updateError) throw updateError;
+
+                // Update user profile in database
+                const { error: profileError } = await supabase
+                    .from('user_profiles')
+                    .upsert({
+                        id: currentUser.id,
+                        full_name: fullName,
+                        updated_at: new Date().toISOString()
+                    });
+
+                if (profileError) throw profileError;
+
+                showSuccess('Profile updated successfully!');
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                showError('Failed to save profile: ' + (error.message || 'Unknown error'));
+            }
+        }
+
+        // Load all settings into UI
+        function loadAllSettings() {
+            if (!userSettings) {
+                console.log('No settings to load');
+                return;
+            }
+
+            try {
+                console.log('Loading settings into UI:', userSettings);
+
+                // Set auto-save interval dropdown
+                const autoSaveSelect = document.getElementById('autoSaveIntervalSelect');
+                if (autoSaveSelect && userSettings.auto_save_interval) {
+                    autoSaveSelect.value = userSettings.auto_save_interval;
+                }
+
+                // Preferences toggles - using IDs now
+                const reducedMotionToggle = document.getElementById('reducedMotionToggle');
+                if (reducedMotionToggle) {
+                    reducedMotionToggle.checked = userSettings.reduced_motion || false;
+                }
+
+                const autoPreviewToggle = document.getElementById('autoPreviewToggle');
+                if (autoPreviewToggle) {
+                    autoPreviewToggle.checked = userSettings.auto_preview !== false;
+                }
+
+                const syntaxHighlightingToggle = document.getElementById('syntaxHighlightingToggle');
+                if (syntaxHighlightingToggle) {
+                    syntaxHighlightingToggle.checked = userSettings.syntax_highlighting !== false;
+                }
+
+                console.log('Settings loaded into UI');
+            } catch (error) {
+                console.error('Error loading settings:', error);
+            }
+        }
+
+        // Load billing data
+        async function loadBillingData() {
+            if (!currentUser) return;
+
+            try {
+                console.log('Loading billing data...');
+                console.log('📊 User Profile:', userProfile);
+
+                // Load subscription for status and billing date
+                const { data: subscription, error: subError } = await supabase
+                    .from('subscriptions')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .single();
+
+                // Load payments
+                const { data: payments, error: payError } = await supabase
+                    .from('payments')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('created_at', { ascending: false });
+
+                const billingContent = document.getElementById('billingContent');
+                if (!billingContent) return;
+
+                let html = '';
+
+                // Show subscription status - get plan info from userProfile
+                if (userProfile) {
+                    // Get plan display name from user profile
+                    const planType = userProfile.plan_name?.toLowerCase() || 'lite';
+                    const planDisplayName = userProfile.plan_name
+                        ? userProfile.plan_name.charAt(0).toUpperCase() + userProfile.plan_name.slice(1) + ' Plan'
+                        : 'Subscription';
+
+                    // Get website usage info from user profile and subscription
+                    const websitesUsed = userProfile?.websites_used || 0;
+                    const maxWebsites = userProfile?.max_websites || 0;
+
+                    // Status colors (if we have subscription data)
+                    const statusColor = subscription?.status === 'active' || subscription?.status === 'trialing'
+                        ? 'text-green-400'
+                        : 'text-yellow-400';
+                    const statusBg = subscription?.status === 'active' || subscription?.status === 'trialing'
+                        ? 'bg-green-500/20'
+                        : 'bg-yellow-500/20';
+
+                    // Plan-specific styling
+                    let cardGradient, borderColor, iconSvg, accentColor, buttonGradient;
+
+                    if (planType === 'max') {
+                        // Max Plan: Premium purple/gold gradient
+                        cardGradient = 'from-purple-600/20 via-purple-500/10 to-amber-500/20';
+                        borderColor = 'border-purple-500/30';
+                        accentColor = 'text-purple-400';
+                        buttonGradient = 'bg-gradient-to-r from-purple-600 to-amber-600 hover:from-purple-700 hover:to-amber-700';
+                        iconSvg = `<svg style="width: 32px; height: 32px; color: #c084fc;" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>`;
+                    } else if (planType === 'pro') {
+                        // Pro Plan: Professional blue/cyan gradient
+                        cardGradient = 'from-blue-600/20 via-cyan-500/10 to-blue-400/20';
+                        borderColor = 'border-blue-500/30';
+                        accentColor = 'text-cyan-400';
+                        buttonGradient = 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700';
+                        iconSvg = `<svg style="width: 28px; height: 28px; color: #22d3ee;" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>`;
+                    } else {
+                        // Lite Plan: Simple green/teal gradient
+                        cardGradient = 'from-green-600/20 via-teal-500/10 to-green-400/20';
+                        borderColor = 'border-green-500/30';
+                        accentColor = 'text-green-400';
+                        buttonGradient = 'bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700';
+                        iconSvg = `<svg style="width: 24px; height: 24px; color: #4ade80;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>`;
+                    }
+
+                    html += `
+                        <div class="relative overflow-hidden p-8 bg-gradient-to-br ${cardGradient} border-2 ${borderColor} rounded-2xl shadow-xl">
+                            <!-- Plan Icon Badge -->
+                            <div style="position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); padding: 12px; border-radius: 12px;">
+                                ${iconSvg}
+                            </div>
+
+                            <div class="flex items-start justify-between mb-6">
+                                <div>
+                                    <h3 class="text-3xl font-bold text-white mb-2" style="text-shadow: 0 2px 10px rgba(0,0,0,0.3);">${planDisplayName}</h3>
+                                    <p class="${accentColor} text-lg font-semibold mb-1">${websitesUsed} of ${maxWebsites} websites used</p>
+                                    ${subscription ? `
+                                    <div class="inline-flex items-center gap-2 mt-2 px-3 py-1.5 ${statusBg} ${statusColor} text-xs rounded-full font-semibold" style="backdrop-filter: blur(10px);">
+                                        <span style="width: 6px; height: 6px; background: currentColor; border-radius: 50%; display: inline-block;"></span>
+                                        ${subscription.status.toUpperCase()}
+                                    </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+
+                            ${subscription?.current_period_end ? `
+                            <div style="background: rgba(0,0,0,0.2); backdrop-filter: blur(10px); padding: 12px 16px; border-radius: 12px; margin-bottom: 20px;">
+                                <div class="text-sm text-gray-300">
+                                    <span class="font-semibold">${subscription.status === 'trialing' ? 'Trial ends' : 'Next billing'}:</span>
+                                    <span class="text-white ml-2">${new Date(subscription.current_period_end).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                                </div>
+                            </div>
+                            ` : ''}
+
+                            <div class="flex gap-3">
+                                <button onclick="openManageSubscriptionModal('${planType}', ${maxWebsites})" class="px-8 py-3.5 ${buttonGradient} text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-105 transform">
+                                    Manage Subscription
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="p-6 bg-gradient-to-br from-orange-500/10 to-orange-600/5 border border-orange-500/20 rounded-xl">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white">Free Trial</h3>
+                                    <p class="text-gray-400">You're currently on the free trial</p>
+                                </div>
+                            </div>
+                            <button class="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg transition-all">
+                                Upgrade Now
+                            </button>
+                        </div>
+                    `;
+                }
+
+                // Show payment history
+                html += '<div><h3 class="text-lg font-semibold text-white mb-4">Payment History</h3>';
+
+                if (payments && payments.length > 0) {
+                    html += '<div class="space-y-2">';
+                    payments.forEach(payment => {
+                        const date = new Date(payment.created_at).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short'
+                        });
+                        html += `
+                            <div class="p-4 bg-gray-800/50 rounded-lg flex items-center justify-between">
+                                <div>
+                                    <div class="text-sm text-white">${date}</div>
+                                    <div class="text-xs text-gray-400">Payment</div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span class="text-sm text-white">$${(payment.amount / 100).toFixed(2)}</span>
+                                    <span class="px-2 py-1 text-xs rounded-full ${payment.status === 'succeeded' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}">
+                                        ${payment.status}
+                                    </span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                } else {
+                    html += '<p class="text-gray-400 text-sm">No payment history yet.</p>';
+                }
+
+                html += '</div>';
+
+                billingContent.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading billing data:', error);
+                const billingContent = document.getElementById('billingContent');
+                if (billingContent) {
+                    billingContent.innerHTML = '<p class="text-red-400">Failed to load billing data.</p>';
+                }
+            }
+        }
+
+        // Toggle functions for preferences (called on change)
+        async function toggleReducedMotion(checkbox) {
+            if (!currentUser) return;
+            await saveUserSetting('reduced_motion', checkbox.checked);
+        }
+
+        async function toggleAutoPreview(checkbox) {
+            if (!currentUser) return;
+            await saveUserSetting('auto_preview', checkbox.checked);
+        }
+
+        async function toggleSyntaxHighlighting(checkbox) {
+            if (!currentUser) return;
+            await saveUserSetting('syntax_highlighting', checkbox.checked);
+        }
+
+        async function changeAutoSaveInterval(value) {
+            if (!currentUser) return;
+            await saveUserSetting('auto_save_interval', parseInt(value));
+        }
+
+        // Generic function to save a single setting
+        async function saveUserSetting(key, value) {
+            // user_settings table removed - settings not saved to database
+            console.log(`Setting ${key} changed (not saved):`, value);
+
+            /* DISABLED - user_settings table removed
+            try {
+                const { error } = await supabase
+                    .from('user_settings')
+                    .upsert({
+                        id: currentUser.id,
+                        [key]: value,
+                        updated_at: new Date().toISOString()
+                    });
+
+                if (error) throw error;
+
+                console.log(`Setting ${key} saved:`, value);
+            } catch (error) {
+                console.error(`Error saving ${key}:`, error);
+                showError(`Failed to save ${key}: ` + (error.message || 'Unknown error'));
+            }
+            */
+        }
+
+        // Change password
+        async function changePassword() {
+            if (!currentUser) return;
+
+            try {
+                const currentPassword = document.getElementById('currentPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (!currentPassword || !newPassword || !confirmPassword) {
+                    showError('Please fill in all password fields');
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    showError('New passwords do not match!');
+                    return;
+                }
+
+                if (newPassword.length < 6) {
+                    showError('Password must be at least 6 characters!');
+                    return;
+                }
+
+                console.log('Verifying current password...');
+
+                // Step 1: Verify current password by attempting to sign in
+                const { error: signInError } = await supabase.auth.signInWithPassword({
+                    email: currentUser.email,
+                    password: currentPassword
+                });
+
+                if (signInError) {
+                    showError('Current password is incorrect!');
+                    return;
+                }
+
+                console.log('✅ Current password verified. Updating to new password...');
+
+                // Step 2: Update to new password
+                const { error: updateError } = await supabase.auth.updateUser({
+                    password: newPassword
+                });
+
+                if (updateError) throw updateError;
+
+                console.log('✅ Password updated successfully!');
+                showSuccess('Password updated successfully! Please use your new password next time you log in.');
+
+                // Clear form
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+            } catch (error) {
+                console.error('Error changing password:', error);
+                showError('Failed to change password: ' + (error.message || 'Unknown error'));
+            }
+        }
+
+        // Confirm delete account
+        function confirmDeleteAccount() {
+            const confirmed = window.confirm(
+                'Are you absolutely sure you want to delete your account?\n\n' +
+                'This will permanently delete:\n' +
+                '• All your projects\n' +
+                '• All your websites\n' +
+                '• All your data\n\n' +
+                'This action CANNOT be undone.'
+            );
+
+            if (confirmed) {
+                const doubleConfirm = window.prompt(
+                    'Type "DELETE MY ACCOUNT" to confirm:'
+                );
+
+                if (doubleConfirm === 'DELETE MY ACCOUNT') {
+                    deleteAccount();
+                }
+            }
+        }
+
+        // Delete account
+        async function deleteAccount() {
+            if (!currentUser) return;
+
+            try {
+                console.log('🗑️ Deleting account...');
+
+                // Get the current user's session token
+                const { data: { session } } = await supabase.auth.getSession();
+
+                if (!session) {
+                    throw new Error('No active session found');
+                }
+
+                // Call backend to delete account
+                const response = await fetch('/api/delete-account', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${session.access_token}`
+                    },
+                    body: JSON.stringify({
+                        userId: currentUser.id
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to delete account');
+                }
+
+                console.log('✅ Account deleted successfully');
+
+                // Sign out the user
+                await supabase.auth.signOut();
+
+                // Show success message
+                alert('Your account has been permanently deleted. You will be redirected to the home page.');
+
+                // Redirect to home page
+                window.location.href = 'Index.html';
+
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                showError('Failed to delete account: ' + (error.message || 'Unknown error'));
+            }
+        }
+
+        // Change avatar
+        function changeAvatar(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 1024 * 1024) {
+                showError('File size must be less than 1MB');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const avatar = document.getElementById('profileAvatar');
+                if (avatar) {
+                    avatar.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '1rem';
+                    avatar.appendChild(img);
+                    showSuccess('Avatar updated! (Click Save to persist)');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            console.log('Success:', message);
+            showToast(message, 'success');
+        }
+
+        // Show error message
+        function showError(message) {
+            console.error('Error:', message);
+            showToast(message, 'error');
+        }
+
+        // Show general toast
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            } text-white`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // ============= SIMPLE WORKING NAVIGATION =============
+
+        function hideAllSections() {
+            document.getElementById('profileSection').classList.add('hidden');
+            document.getElementById('accountSection').classList.add('hidden');
+            document.getElementById('securitySection').classList.add('hidden');
+            document.getElementById('preferencesSection').classList.add('hidden');
+            document.getElementById('billingSection').classList.add('hidden');
+        }
+
+        function updateActiveButton(activeButton) {
+            // Reset all buttons
+            const allButtons = document.querySelectorAll('.settings-nav-btn');
+            allButtons.forEach(btn => {
+                btn.classList.remove('text-orange-400', 'bg-orange-500/10', 'border-orange-500/20');
+                btn.classList.add('text-gray-300');
+            });
+
+            // Highlight active button
+            if (activeButton) {
+                activeButton.classList.remove('text-gray-300');
+                activeButton.classList.add('text-orange-400', 'bg-orange-500/10', 'border-orange-500/20');
+            }
+        }
+
+        window.showProfile = function() {
+            hideAllSections();
+            document.getElementById('profileSection').classList.remove('hidden');
+            const profileBtn = document.querySelector('button[onclick="showProfile()"]');
+            updateActiveButton(profileBtn);
+        };
+
+        window.showAccount = function() {
+            hideAllSections();
+            document.getElementById('accountSection').classList.remove('hidden');
+            const accountBtn = document.querySelector('button[onclick="showAccount()"]');
+            updateActiveButton(accountBtn);
+        };
+
+        window.showSecurity = function() {
+            hideAllSections();
+            document.getElementById('securitySection').classList.remove('hidden');
+            const securityBtn = document.querySelector('button[onclick="showSecurity()"]');
+            updateActiveButton(securityBtn);
+        };
+
+        window.showPreferences = function() {
+            hideAllSections();
+            document.getElementById('preferencesSection').classList.remove('hidden');
+            const preferencesBtn = document.querySelector('button[onclick="showPreferences()"]');
+            updateActiveButton(preferencesBtn);
+        };
+
+        window.showBilling = function() {
+            hideAllSections();
+            document.getElementById('billingSection').classList.remove('hidden');
+            const billingBtn = document.querySelector('button[onclick="showBilling()"]');
+            updateActiveButton(billingBtn);
+        };
+
+        // Manage Subscription Modal
+        window.openManageSubscriptionModal = function(planType, maxWebsites) {
+            const modal = document.getElementById('manageSubscriptionModal');
+            const modalContent = document.getElementById('modalContent');
+            const planTitle = document.getElementById('modalPlanTitle');
+            const perksList = document.getElementById('modalPerksList');
+
+            // Set plan title
+            planTitle.textContent = planType.charAt(0).toUpperCase() + planType.slice(1) + ' Plan';
+
+            // Define perks for each plan
+            const perks = {
+                max: [
+                    'Deploy up to 8 websites',
+                    'Unlimited revisions per website',
+                    'Priority support (24/7)',
+                    'Advanced AI models',
+                    'Custom domain integration',
+                    'Analytics dashboard',
+                    'Team collaboration (coming soon)'
+                ],
+                pro: [
+                    'Deploy up to 3 websites',
+                    'Unlimited revisions per website',
+                    'Email support',
+                    'Standard AI models',
+                    'Custom domain integration',
+                    'Basic analytics'
+                ],
+                lite: [
+                    'Deploy up to 1 website',
+                    'Unlimited revisions',
+                    'Community support',
+                    'Standard AI models',
+                    'fowazz.fawzsites.com subdomain'
+                ]
+            };
+
+            // Populate perks list
+            perksList.innerHTML = '';
+            (perks[planType] || perks.lite).forEach(perk => {
+                const li = document.createElement('li');
+                li.style.cssText = 'display: flex; align-items: center; gap: 12px; padding: 10px 0;';
+                li.innerHTML = `
+                    <svg style="width: 20px; height: 20px; color: #10b981; flex-shrink: 0;" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span style="color: #e5e7eb;">${perk}</span>
+                `;
+                perksList.appendChild(li);
+            });
+
+            // Show modal with animation
+            modal.style.display = 'flex';
+            modal.classList.add('modal-backdrop-enter');
+            modalContent.classList.add('modal-content-enter');
+
+            // Remove animation classes after animation completes
+            setTimeout(() => {
+                modal.classList.remove('modal-backdrop-enter');
+                modalContent.classList.remove('modal-content-enter');
+            }, 400);
+        };
+
+        window.closeManageSubscriptionModal = function() {
+            const modal = document.getElementById('manageSubscriptionModal');
+            const modalContent = document.getElementById('modalContent');
+
+            // Add exit animations
+            modal.classList.add('modal-backdrop-exit');
+            modalContent.classList.add('modal-content-exit');
+
+            // Hide modal after animation completes
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.classList.remove('modal-backdrop-exit');
+                modalContent.classList.remove('modal-content-exit');
+            }, 300);
+        };
+
+        window.cancelSubscription = async function() {
+            if (!confirm('Are you sure you want to cancel your subscription? You will lose access to your plan features at the end of the billing period.')) {
+                return;
+            }
+
+            try {
+                console.log('🚫 Canceling subscription...');
+
+                // First, get the subscription with stripe_subscription_id
+                const { data: subData, error: subError } = await supabase
+                    .from('subscriptions')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .eq('status', 'active')
+                    .maybeSingle();
+
+                if (subError) throw subError;
+
+                if (!subData) {
+                    throw new Error('No active subscription found to cancel');
+                }
+
+                console.log('📝 Found subscription:', subData);
+
+                // Cancel in Stripe first (IMPORTANT!)
+                if (subData.stripe_subscription_id) {
+                    console.log('🔔 Canceling in Stripe:', subData.stripe_subscription_id);
+
+                    const response = await fetch('/api/cancel-subscription', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            stripeSubscriptionId: subData.stripe_subscription_id
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Failed to cancel Stripe subscription');
+                    }
+
+                    console.log('✅ Stripe cancellation successful:', result);
+                } else {
+                    console.warn('⚠️ No stripe_subscription_id found, will only update database');
+                }
+
+                // Now update our database
+                const { data: updateData, error: updateError } = await supabase
+                    .from('subscriptions')
+                    .update({
+                        status: 'canceled',
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('user_id', currentUser.id)
+                    .eq('status', 'active')
+                    .select();
+
+                if (updateError) throw updateError;
+
+                console.log('✅ Database updated:', updateData[0]);
+
+                // Also update user profile timestamp
+                const { error: profileError } = await supabase
+                    .from('user_profiles')
+                    .update({
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', currentUser.id);
+
+                if (profileError) {
+                    console.warn('⚠️ Could not update user profile:', profileError);
+                }
+
+                console.log('✅ Cancellation complete!');
+                alert('✅ Your subscription has been canceled in Stripe.\n\nYou will retain access to all features until the end of your current billing period. You will NOT be charged again.');
+
+                closeManageSubscriptionModal();
+
+                // Reload profile and billing data
+                await loadUserProfile();
+                await loadBillingData();
+
+            } catch (err) {
+                console.error('❌ Error canceling subscription:', err);
+                alert(`Failed to cancel subscription: ${err.message}\n\nPlease contact support if this issue persists.`);
+            }
+        };
+    </script>
+
+    <!-- Manage Subscription Modal -->
+    <div id="manageSubscriptionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(5px);">
+        <div id="modalContent" style="background: linear-gradient(135deg, #1f2937 0%, #111827 100%); border: 2px solid rgba(249, 115, 22, 0.3); border-radius: 24px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+            <!-- Header -->
+            <div style="padding: 32px 32px 24px; border-bottom: 1px solid rgba(249, 115, 22, 0.2);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 id="modalPlanTitle" style="font-size: 28px; font-weight: bold; color: white;">Manage Subscription</h2>
+                    <button onclick="closeManageSubscriptionModal()" style="color: #9ca3af; hover:color: white; transition: color 0.2s;">
+                        <svg style="width: 28px; height: 28px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div style="padding: 32px;">
+                <!-- Plan Perks Section -->
+                <div style="margin-bottom: 32px;">
+                    <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 16px;">Your Plan Includes:</h3>
+                    <ul id="modalPerksList" style="list-style: none; padding: 0; margin: 0;">
+                        <!-- Perks will be populated by JavaScript -->
+                    </ul>
+                </div>
+
+                <!-- Actions -->
+                <div style="border-top: 1px solid rgba(249, 115, 22, 0.2); padding-top: 24px;">
+                    <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 16px;">Manage Your Subscription</h3>
+
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <button onclick="cancelSubscription()" style="padding: 14px 24px; background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white; font-weight: 600; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);">
+                            Cancel Subscription
+                        </button>
+
+                        <button onclick="closeManageSubscriptionModal()" style="padding: 14px 24px; background: #374151; color: white; font-weight: 600; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s;">
+                            Close
+                        </button>
+                    </div>
+
+                    <p style="color: #9ca3af; font-size: 13px; margin-top: 16px; line-height: 1.5;">
+                        Note: Canceling your subscription will retain your access until the end of your current billing period. You will not be charged again.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

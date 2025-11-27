@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.md
+.git/
+.vscode/
+.DS_Store
+src/**/*.test.ts
+src/**/*.spec.ts

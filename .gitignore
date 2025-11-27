@@ -1,0 +1,100 @@
+# ===================================
+# CRITICAL: Prevent API Keys from being pushed to GitHub
+# ===================================
+
+# Environment files (contains API keys, passwords, secrets)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+**/.env
+**/.env.*
+
+# Keep the example files (they have placeholders, not real keys)
+!.env.production.example
+!**/.env.production.example
+
+# ===================================
+# Node.js
+# ===================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.pnpm-debug.log*
+
+# ===================================
+# Python
+# ===================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+ENV/
+env/
+
+# ===================================
+# Development & IDE
+# ===================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ===================================
+# Project Specific
+# ===================================
+sites/
+backend/node_modules/
+public/
+
+# ===================================
+# Logs
+# ===================================
+*.log
+logs/
+
+# ===================================
+# OS Files
+# ===================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# ===================================
+# Git
+# ===================================
+.git/
+.gitattributes
+
+# ===================================
+# Claude Code
+# ===================================
+.claude/

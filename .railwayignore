@@ -1,0 +1,15 @@
+node_modules/
+fayez/
+backend/
+sites/
+public/
+*.md
+README.md
+HOW_TO_RUN.txt
+SETUP_INSTRUCTIONS.md
+VERIFICATION_REPORT.md
+.git/
+.vscode/
+__pycache__/
+*.pyc
+.DS_Store

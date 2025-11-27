@@ -1,0 +1,110 @@
+FIND THIS:
+                <div class="w-full max-w-6xl mx-auto" style="padding-top: 20px; padding-bottom: 40px;">
+                    <div class="text-center mb-6 phase-fade-in">
+
+REPLACE WITH:
+                <div class="w-full max-w-6xl mx-auto" style="padding-top: 20px; padding-bottom: 40px;">
+                    <div class="text-center mb-8 phase-fade-in">
+                        <div class="text-3xl sm:text-4xl mb-3">🚀</div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">Choose Your Plan</h2>
+                        <p class="text-gray-400 text-sm sm:text-base mb-2">Select the perfect plan for your needs</p>
+                    </div>
+
+                    <!-- Plan Selection -->
+                    <div id="planSelection" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Pro Plan -->
+                        <div class="paywall-pricing-card phase-fade-in" style="animation-delay: 0.1s;">
+                            <div class="mb-4">
+                                <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Pro Plan</h3>
+                                <div class="flex items-baseline gap-2 mb-1">
+                                    <span class="text-3xl sm:text-4xl font-bold text-white">$9.99</span>
+                                    <span class="text-gray-400 text-sm sm:text-base">/month</span>
+                                </div>
+                                <p class="text-gray-400 text-xs sm:text-sm">Perfect for small projects</p>
+                            </div>
+                            <div class="space-y-2 mb-6">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="text-white text-sm">3 Websites</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="text-white text-sm">Unlimited Edits</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="text-white text-sm">Custom Domains</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="text-white text-sm">Premium Hosting</span>
+                                </div>
+                            </div>
+                            <button onclick="selectPlan('pro', 'price_1SQCJeRwqmVW0cG8mn3kf3sV', 3)" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all">
+                                Subscribe to Pro
+                            </button>
+                        </div>
+
+                        <!-- Max Plan -->
+                        <div class="paywall-pricing-card phase-fade-in border-2 border-amber-500/50 relative" style="animation-delay: 0.2s;">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-1 rounded-full text-xs font-bold">
+                                BEST VALUE
+                            </div>
+                            <div class="mb-4 mt-2">
+                                <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Max Plan</h3>
+                                <div class="flex items-baseline gap-2 mb-1">
+                                    <span class="text-3xl sm:text-4xl font-bold text-white">$24.45</span>
+                                    <span class="text-gray-400 text-sm sm:text-base">/month</span>
+                                </div>
+                                <p class="text-gray-400 text-xs sm:text-sm">For growing businesses</p>
+                            </div>
+                            <div class="space-y-2 mb-6">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="text-white text-sm font-semibold">8 Websites</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="text-white text-sm">Unlimited Edits</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="text-white text-sm">Custom Domains</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="text-white text-sm">Premium Hosting</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="text-white text-sm font-semibold">Priority Support</span>
+                                </div>
+                            </div>
+                            <button onclick="selectPlan('max', 'NEED_MAX_PRICE_ID_HERE', 8)" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-all">
+                                Subscribe to Max
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-gray-500 text-center mt-8">
+                        Secure payment powered by Stripe • Cancel anytime • No hidden fees
+                    </p>
+                </div>

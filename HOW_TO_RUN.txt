@@ -1,0 +1,149 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║                    FOWAZZ + FAYEZ DEPLOYMENT SYSTEM               ║
+║                         Setup & Run Guide                         ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+This unified system combines two powerful tools:
+  • FOWAZZ: AI website builder (generates websites)
+  • FAYEZ: Deployment system (deploys to Cloudflare Pages)
+
+═════════════════════════════════════════════════════════════════════
+
+📋 PREREQUISITES
+
+1. Docker Desktop (must be running)
+2. Python 3.x installed
+3. Node.js installed
+4. Redis (via Docker)
+
+═════════════════════════════════════════════════════════════════════
+
+🚀 HOW TO START THE SYSTEM
+
+Open 4 separate PowerShell/Terminal windows:
+
+┌─────────────────────────────────────────────────────────────────┐
+│ TERMINAL 1: Start Docker & Redis                               │
+└─────────────────────────────────────────────────────────────────┘
+1. Open Docker Desktop
+2. Wait for Docker to fully start
+3. Check Redis: docker ps
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ TERMINAL 2: Start FOWAZZ Backend (Flask)                       │
+└─────────────────────────────────────────────────────────────────┘
+cd C:\Users\ahmed\Desktop\FOWAZZ
+python server.py
+
+✅ Server will run on: http://127.0.0.1:5000
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ TERMINAL 3: Start Fayez API (Express)                          │
+└─────────────────────────────────────────────────────────────────┘
+cd C:\Users\ahmed\Desktop\FOWAZZ\fayez\api
+npm run dev
+
+✅ API will run on: http://localhost:4000
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ TERMINAL 4: Start Fayez Provisioner Worker                     │
+└─────────────────────────────────────────────────────────────────┘
+cd C:\Users\ahmed\Desktop\FOWAZZ\fayez\worker
+npm run dev
+
+✅ Worker will process deployment jobs
+
+═════════════════════════════════════════════════════════════════════
+
+🌐 ACCESS THE APPLICATION
+
+Open your browser and go to:
+👉 http://127.0.0.1:5000
+
+Or open the Index.html file directly in your browser.
+
+═════════════════════════════════════════════════════════════════════
+
+📝 HOW TO USE
+
+Phase 1: Generate Website
+──────────────────────────
+1. Tell Fowazz what website you want to build
+2. Wait for Fowazz to generate the website
+3. Click "👁️ Show Preview" to see your site
+4. Click "🚀 Deploy This Site" when satisfied
+
+Phase 2: Domain Selection
+──────────────────────────
+1. Enter your desired domain name (e.g., mybusiness.com)
+2. Click "Check Availability"
+3. If available, click "✓ Proceed to Deployment"
+
+Phase 3: Deployment
+──────────────────────────
+1. Watch the progress as your site deploys:
+   📦 Packaging Files
+   ☁️ Uploading to Cloud
+   🌐 Deploying to Cloudflare
+   ✓ Going Live
+2. Get your live URL when complete!
+
+═════════════════════════════════════════════════════════════════════
+
+🔧 TROUBLESHOOTING
+
+Problem: "Make sure Fayez API is running on port 4000"
+Solution: Check Terminal 3 - Fayez API should be running
+
+Problem: Deployment fails
+Solution:
+  • Check all 4 terminals are running
+  • Verify Docker Desktop is running
+  • Check .env files have correct API keys
+
+Problem: Domain check fails
+Solution: Verify DNSimple API credentials in fayez/api/.env file
+
+═════════════════════════════════════════════════════════════════════
+
+📂 PROJECT STRUCTURE
+
+FOWAZZ/                         ← Main Folder
+  ├── Index.html               (Frontend UI)
+  ├── app.js                   (Frontend logic + Deployment system)
+  ├── server.py                (Flask backend for Claude AI)
+  ├── .env                     (Anthropic API key)
+  ├── README.md                (Complete manual)
+  └── HOW_TO_RUN.txt          (This file)
+
+  └── fayez/                   ← Fayez Deployment System
+      ├── api/                 (Express API server - Port 4000)
+      │   ├── src/routes/     (Upload, Domain, Checkout endpoints)
+      │   └── .env            (API credentials)
+      │
+      └── worker/              (BullMQ worker for deployments)
+          ├── src/index.ts    (Cloudflare deployment logic)
+          └── .env            (Worker credentials)
+
+═════════════════════════════════════════════════════════════════════
+
+🎯 QUICK START CHECKLIST
+
+□ Docker Desktop is open and running
+□ Terminal 1: Docker ready
+□ Terminal 2: FOWAZZ running (port 5000)
+□ Terminal 3: Fayez API running (port 4000)
+□ Terminal 4: Fayez Worker running
+□ Browser open to http://127.0.0.1:5000
+
+═════════════════════════════════════════════════════════════════════
+
+✨ ENJOY BUILDING AND DEPLOYING WEBSITES WITH FOWAZZ!
+
+For detailed documentation, see README.md
+
+If you have any issues, check that all services are running and
+.env files contain the correct API keys.
