@@ -2569,6 +2569,12 @@ async function getUserPlanInfo() {
 
 // Show full price plan modal for NEW USERS (no active subscription)
 function showFullPricePlanModal() {
+  // HACKATHON MODE: Don't show payment modal
+  if (HACKATHON_MODE) {
+    console.log('🎓 HACKATHON MODE - Skipping payment modal');
+    return;
+  }
+
   const modal = document.getElementById('upgradeModal');
   const optionsContainer = document.getElementById('upgradeOptionsContainer');
   const limitText = document.getElementById('upgradeLimitText');
@@ -2638,6 +2644,12 @@ function showFullPricePlanModal() {
 // Show upgrade modal with appropriate plans (DISCOUNTED for existing subscribers)
 function showUpgradeModal(currentPlan, deployedCount, limit) {
   console.log('🔔 [showUpgradeModal] Called with:', { currentPlan, deployedCount, limit });
+
+  // HACKATHON MODE: Don't show upgrade modal
+  if (HACKATHON_MODE) {
+    console.log('🎓 HACKATHON MODE - Skipping upgrade modal');
+    return;
+  }
 
   const modal = document.getElementById('upgradeModal');
   const optionsContainer = document.getElementById('upgradeOptionsContainer');
@@ -4881,6 +4893,12 @@ async function proceedToPhase3() {
 
 // Show paywall screen
 function showPaywall() {
+  // HACKATHON MODE: Don't show paywall screen
+  if (HACKATHON_MODE) {
+    console.log('🎓 HACKATHON MODE - Skipping paywall screen');
+    return;
+  }
+
   // Transition to paywall "phase"
   const currentScreen = document.getElementById(`phase${currentPhase}`);
   const paywallScreen = document.getElementById('phasePaywall');
