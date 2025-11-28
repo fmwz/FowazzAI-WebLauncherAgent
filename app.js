@@ -5108,43 +5108,50 @@ async function beginActualDeployment() {
     return;
   }
 
-  // Check for test mode (for development/testing)
-  const testMode = localStorage.getItem('fowazz_test_mode') === 'true';
+  // ============================================
+  // SUBSCRIPTION CHECK - DISABLED IN HACKATHON MODE
+  // ============================================
+  if (!HACKATHON_MODE) {
+    // Check for test mode (for development/testing)
+    const testMode = localStorage.getItem('fowazz_test_mode') === 'true';
 
-  if (!testMode) {
-    // Check if user has an active subscription
-    const hasSubscription = await hasActiveSubscription();
+    if (!testMode) {
+      // Check if user has an active subscription
+      const hasSubscription = await hasActiveSubscription();
 
-    if (!hasSubscription) {
-      // User has NO subscription → show full price plans
-      showFullPricePlanModal();
-      return;
+      if (!hasSubscription) {
+        // User has NO subscription → show full price plans
+        showFullPricePlanModal();
+        return;
+      }
+
+      // User HAS subscription → check if they've reached their limit
+      const remaining = await getWebsitesRemaining();
+
+      if (remaining <= 0) {
+        // Get subscription info for upgrade modal
+        const { data } = await supabase
+          .from('subscriptions')
+          .select('max_websites, plan_name, websites_used')
+          .eq('user_id', currentUser.id)
+          .single();
+
+        const maxWebsites = data?.max_websites || 3;
+        const planName = data?.plan_name || 'pro';
+        const websitesUsed = data?.websites_used || maxWebsites;
+
+        // Show upgrade modal with DISCOUNTED pricing (for existing subscribers)
+        showUpgradeModal(planName, websitesUsed, maxWebsites);
+        return;
+      }
+
+      // Don't increment yet - will increment AFTER successful deployment
+      console.log('✅ User has space, proceeding with deployment...');
+    } else {
+      console.log('🧪 TEST MODE: Bypassing website limit check');
     }
-
-    // User HAS subscription → check if they've reached their limit
-    const remaining = await getWebsitesRemaining();
-
-    if (remaining <= 0) {
-      // Get subscription info for upgrade modal
-      const { data } = await supabase
-        .from('subscriptions')
-        .select('max_websites, plan_name, websites_used')
-        .eq('user_id', currentUser.id)
-        .single();
-
-      const maxWebsites = data?.max_websites || 3;
-      const planName = data?.plan_name || 'pro';
-      const websitesUsed = data?.websites_used || maxWebsites;
-
-      // Show upgrade modal with DISCOUNTED pricing (for existing subscribers)
-      showUpgradeModal(planName, websitesUsed, maxWebsites);
-      return;
-    }
-
-    // Don't increment yet - will increment AFTER successful deployment
-    console.log('✅ User has space, proceeding with deployment...');
   } else {
-    console.log('🧪 TEST MODE: Bypassing website limit check');
+    console.log('🎓 HACKATHON MODE - Skipping subscription check in Deploy Now');
   }
 
   // Hide Deploy Now button, show deployment steps
