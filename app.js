@@ -5527,7 +5527,7 @@ function showDomainConfigurationPhase(customDomain, previewUrl) {
       <div class="text-center mb-8">
         <div class="text-6xl mb-4">🔄</div>
         <h2 class="text-3xl font-bold text-white mb-2">Configuring Your Domain</h2>
-        <p class="text-gray-400 mb-6">This usually takes 2-4 hours. We're automatically checking if it's ready.</p>
+        <p class="text-gray-400 mb-6">This usually takes 30 min ~ 1 hour. We're automatically checking if it's ready.</p>
       </div>
 
       <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-6 mb-6">
